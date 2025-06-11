@@ -14,7 +14,6 @@ export default async function handler(req,res) {
     return res.status(200).end();
   }
 
-
   const{ region } = req.body;
   if (!region){
     return res.status(400).json({error:"지역명 입력이 필요합니다."});
@@ -22,7 +21,6 @@ export default async function handler(req,res) {
 
   // const region = "서울시 도붕구"
   
-
   try{
     const today = new Date().toISOString().slice(0,10);
     const prompt =`
@@ -30,9 +28,7 @@ export default async function handler(req,res) {
     지역명: ${region}
     오늘 날짜: ${today}
 
-    해당지역의 날씨를 고려하여 옷차림을 추천해줘.`
-    
-  ;
+    해당지역의 날씨를 고려하여 옷차림을 추천해줘.`;
 
     const result = await ai.models.generateContent({
       model:"gemini-2.0-flash",
@@ -49,6 +45,4 @@ export default async function handler(req,res) {
     res.status(500).json({error:"Gemini API 오류발생"});
   }
 
-  
-  
 }
