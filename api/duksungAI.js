@@ -54,15 +54,4 @@ let body;
     res.status(500).json({error:"Gemini API 오류발생"});
   }
 
-  function formatAIResponseText(text) {
-  // 2줄 이상의 개행 → 문단 나눔
-  text = text.replace(/\n{2,}/g, "</p><p>");
-
-  // 일반 줄바꿈 → <br>
-  text = text.replace(/\n/g, "<br>");
-
-  return text;
-
-}
-
 }
