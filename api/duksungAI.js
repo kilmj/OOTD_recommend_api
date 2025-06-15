@@ -55,36 +55,11 @@ let body;
   }
 
   function formatAIResponseText(text) {
-  // 이중 별표 → <strong>
-  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-  // ### → <h4> (세 번째 수준 제목)
-  text = text.replace(/^### (.*)$/gm, "<h4>$1</h4>");
-
-  // ## → <h3>
-  text = text.replace(/^## (.*)$/gm, "<h3>$1</h3>");
-
-  // # → <h2>
-  text = text.replace(/^# (.*)$/gm, "<h2>$1</h2>");
-
-  // [오늘의 추천음료] → 커스텀 제목
-  text = text.replace(/\[오늘의 추천음료\]/g, "<h4>🥤 오늘의 추천 음료</h4>");
-
   // 2줄 이상의 개행 → 문단 나눔
   text = text.replace(/\n{2,}/g, "</p><p>");
 
   // 일반 줄바꿈 → <br>
   text = text.replace(/\n/g, "<br>");
-
-  // 처음과 끝에 <p> 감싸기 (단, h3/h4 포함된 줄에는 <p>로 감싸지 않도록)
-  text = text.replace(/(<\/?h\d>)/g, "\n$1\n"); // 헤더 줄바꿈
-  text = text.split(/\n/).map(line => {
-    if (line.trim().match(/^<h[2-4]>.*<\/h[2-4]>$/)) {
-      return line; // 헤더는 그대로
-    }
-    if (line.trim() === "") return "";
-    return `<p>${line}</p>`; // 나머지 줄은 <p>로 감싸기
-  }).join("\n");
 
   return text;
 
