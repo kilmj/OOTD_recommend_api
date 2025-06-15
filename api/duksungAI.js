@@ -48,7 +48,7 @@ let body;
       },
     });
 
-    res.status(200).json({ answer: formatAIResponseText(result.text) });
+    res.status(200).json({answer: result.text});
   } catch(err){
     console.error(err);
     res.status(500).json({error:"Gemini API 오류발생"});
