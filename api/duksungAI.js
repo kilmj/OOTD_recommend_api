@@ -47,17 +47,6 @@ export default async function handler(req,res) {
   }
 
   function formatAIResponseText(text) {
-  // // 1. 이중 별표를 <strong>으로
-  // text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-  // // 2. ## 헤더 → <h3>
-  // text = text.replace(/^## (.*)$/gm, "<h3>$1</h3>");
-
-  // // 3. # 단일 헤더 → <h4>
-  // text = text.replace(/^# (.*)$/gm, "<h4>$1</h4>");
-
-  // // 4. [오늘의 추천음료] → 섹션 강조
-  // text = text.replace(/\[오늘의 추천음료\]/g, "<h4>🥤 오늘의 추천 음료</h4>");
 
   // 5. 줄바꿈 → <br> (단, 중복 <br>은 한번만)
   text = text.replace(/\n{2,}/g, "</p><p>"); // 문단 분리
