@@ -14,11 +14,23 @@ export default async function handler(req,res) {
     return res.status(200).end();
   }
 
+let body;
+  try {
+    body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  } catch (e) {
+    return res.status(400).json({ error: "잘못된 JSON 형식입니다." });
+  }
 
-  const { region, allergy } = req.body;
+  const { region, allergy } = body || {};
+
   if (!region || !allergy) {
     return res.status(400).json({ error: "지역명과 알레르기 입력이 필요합니다." });
   }
+  
+  // const { region, allergy } = req.body;
+  // if (!region || !allergy) {
+  //   return res.status(400).json({ error: "지역명과 알레르기 입력이 필요합니다." });
+  // }
 
   
   try{
@@ -51,7 +63,6 @@ export default async function handler(req,res) {
   // 5. 줄바꿈 → <br> (단, 중복 <br>은 한번만)
   text = text.replace(/\n{2,}/g, "</p><p>"); // 문단 분리
   text = "<p>" + text.replace(/\n/g, "<br>") + "</p>"; // 일반 줄바꿈
-
   return text;
 }
 
