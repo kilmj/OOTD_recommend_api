@@ -26,11 +26,7 @@ let body;
   if (!region || !allergy) {
     return res.status(400).json({ error: "지역명과 알레르기 입력이 필요합니다." });
   }
-  
-  // const { region, allergy } = req.body;
-  // if (!region || !allergy) {
-  //   return res.status(400).json({ error: "지역명과 알레르기 입력이 필요합니다." });
-  // }
+
 
   
   try{
@@ -59,10 +55,24 @@ let body;
   }
 
   function formatAIResponseText(text) {
+  // 이중 별표 → <strong>
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
-  // 5. 줄바꿈 → <br> (단, 중복 <br>은 한번만)
-  text = text.replace(/\n{2,}/g, "</p><p>"); // 문단 분리
-  text = "<p>" + text.replace(/\n/g, "<br>") + "</p>"; // 일반 줄바꿈
+  // ## → <h3>
+  text = text.replace(/^## (.*)$/gm, "<h3>$1</h3>");
+
+  // # → <h4>
+  text = text.replace(/^# (.*)$/gm, "<h4>$1</h4>");
+
+  // [오늘의 추천음료] → 커스텀 제목
+  text = text.replace(/\[오늘의 추천음료\]/g, "<h4>🥤 오늘의 추천 음료</h4>");
+
+  // 2줄 이상의 개행 → 문단 나눔
+  text = text.replace(/\n{2,}/g, "</p><p>");
+
+  // 일반 줄바꿈 → <br>
+  text = "<p>" + text.replace(/\n/g, "<br>") + "</p>";
+
   return text;
 }
 
