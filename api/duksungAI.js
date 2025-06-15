@@ -14,10 +14,15 @@ export default async function handler(req,res) {
     return res.status(200).end();
   }
 
-  const{ region } = req.body;
-  if (!region){
-    return res.status(400).json({error:"지역명 입력이 필요합니다."});
+  // const{ region,allergy } = req.body;
+  // if (!region || !birth){
+  //   return res.status(400).json({error:"지역명과 알레르기 입력이 필요합니다."});
+  // }
+  const { region, allergy } = req.body;
+  if (!region || !allergy) {
+    return res.status(400).json({ error: "지역명과 알레르기 입력이 필요합니다." });
   }
+
 
   // const region = "서울시 도붕구"
   
@@ -29,14 +34,14 @@ export default async function handler(req,res) {
     오늘 날짜: ${today}
     알레르기 종류: ${allergy}
 
-    해당지역의 날씨를 고려하여 옷차림을 추천해줘.`;
+    해당지역의 날씨와 알레르기를 고려하여 옷차림과 마실 음료를 추천해줘.`;
 
     const result = await ai.models.generateContent({
       model:"gemini-2.0-flash",
       contents:prompt,
       config:{
         systemInstruction:
-        "오늘날짜와 해당지역의 최고기온, 최저기온, 비가 올 확률을 먼저 제시하세요.상의, 하의, 신발 조합을 총 3가지로 추천하되, 많은 사람들이 가지고 있을 옷들을 위주로 조합하여 성별에 상관없이 입을 수 있게 날씨에 맞게 옷을 추천하세요. 마지막에는 오늘의 패션아이템 한가지를 덧붙여 주세요. 추가적으로 [오늘의 추천음료] 말머리를 달고 날씨를 고려하여 마실 음료를 추천해주세요. 메가커피,컴포즈 커피의 메뉴를 활용하여 추천하세요. 단, 사용자가 입력한 알레르기를 보고 해당 재로가 들어간 음료를 제외하고 추천하세요."
+        "오늘날짜와 해당지역의 최고기온, 최저기온, 비가 올 확률을 먼저 제시하세요.상의, 하의, 신발 조합을 총 3가지로 추천하되, 많은 사람들이 가지고 있을 옷들을 위주로 조합하여 성별에 상관없이 입을 수 있게 날씨에 맞게 옷을 추천하세요. 마지막에는 오늘의 패션아이템 한가지를 덧붙여 주세요. 추가적으로 한줄 내려서 [오늘의 추천음료] 말머리를 달고 날씨를 고려하여 마실 음료를 추천해주세요. 메가커피,컴포즈 커피의 메뉴를 활용하여 추천하세요. 단, 사용자가 입력한 알레르기를 보고 해당 재로가 들어간 음료를 제외하고 추천하세요."
       },
     });
 
